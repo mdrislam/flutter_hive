@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive_db_prac/const.dart';
-
-void main() {
+import 'package:hive/hive.dart';
+var hive;
+void main() async{
+   Hive.init('test');
+ hive= await Hive.openBox('test');
   runApp(const MyApp());
 }
 
@@ -40,6 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
 
       _counter++;
+      hive.put('counter',_counter);
     });
   }
 
@@ -61,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
               'You have pushed the button this many times:',
             ),
             Text(
-              '$_counter',
+              hive.get('counter').toString(),
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
